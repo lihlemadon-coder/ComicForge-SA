@@ -1,0 +1,16 @@
+/* ComicForge SA — Reset */
+html, body, div, span, h1, h2, h3, h4, p, a, img, input, textarea, select, button, ul, ol, li, form, label, section, article, header, footer, nav, aside, main {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+article, aside, header, footer, nav, section, main {
+  display: block;
+}
+body { line-height: 1; }
+button { background: none; border: none; cursor: pointer; font-family: inherit; }
+textarea { resize: vertical; }
+.hidden { display: none !important; }
