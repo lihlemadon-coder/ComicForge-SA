@@ -1,0 +1,21 @@
+{
+  "name": "ComicForge SA",
+  "short_name": "ComicForge SA",
+  "description": "AI Comic & Short Anime Creator - South African historic fantasy",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#007a4d",
+  "icons": [
+    {
+      "src": "assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
