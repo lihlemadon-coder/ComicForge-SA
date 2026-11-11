@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ComicForge SA — AI Comic & Short Anime Creator</title>
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="brand">
+        <div class="logo">CF</div>
+        <div>ComicForge SA</div>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-ghost btn-sm" id="btn-new-project">New Project</button>
+        <button class="btn btn-ghost btn-sm" id="btn-export">Export All JSON</button>
+        <input type="file" id="input-import" accept=".json" style="display:none;">
+        <label for="input-import" class="btn btn-ghost btn-sm">Import JSON</label>
+        <span class="autosave-indicator" id="autosave-indicator" style="opacity:0.6;">
+          <span class="autosave-dot"></span> Auto-saved locally
+        </span>
+      </div>
+    </header>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <nav style="display:flex; flex-direction:column; gap:0.25rem;">
+        <div class="nav-item active" id="nav-dashboard" onclick="app.showView('dashboard')">📊 Dashboard</div>
+        <div class="nav-item" id="nav-story" onclick="app.showView('story')">📖 Story Engine</div>
+        <div class="nav-item" id="nav-character" onclick="app.showView('character')">👥 Characters</div>
+        <div class="nav-item" id="nav-scenes" onclick="app.showView('scenes')">🎬 Scenes</div>
+        <div class="nav-item" id="nav-comic" onclick="app.showView('comic')">📚 Comic Builder</div>
+        <div class="nav-item" id="nav-readmode" onclick="app.showView('readmode')">📖 Read Mode</div>
+        <div class="nav-item" id="nav-anime" onclick="app.showView('anime')">🎬 Anime Blueprint</div>
+        <div class="nav-item" id="nav-settings" onclick="app.showView('settings')">⚙️ Settings</div>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <!-- Dashboard View -->
+      <section id="view-dashboard" data-view class="hidden">
+        <div class="view-content"></div>
+      </section>
+
+      <!-- Story View -->
+      <section id="view-story" data-view class="hidden">
+        <div class="view-content"></div>
+      </section>
+
+      <!-- Story Views -->
+      <section id="view-scenes" data-view class="hidden">
+        <div class="view-content"></div>
+      </section>
+
+      <!-- Comic Views -->
+      <section id="view-comic" data-view class="hidden">
+        <div class="view-content"></div>
+      </section>
+      <section id="view-readmode" data-view class="hidden">
+        <div class="view-content"></div>
+      </section>
+
+      <!-- Anime View -->
+      <section id="view-anime" data-view class="hidden">
+        <div class="view-content"></div>
+      </section>
+
+      <!-- Settings -->
+      <section id="view-settings" data-view class="hidden">
+        <div class="view-content"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
