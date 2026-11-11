@@ -1,0 +1,166 @@
+/* ========================================
+   Mzansi Theme — South African Colours & Fonts
+   ComicForge-SA
+   ======================================== */
+
+/* --- SA Flag Colour Palette --- */
+:root {
+  /* South African flag colours */
+  --sa-green: #007A4D;      /* SA flag green */
+  --sa-gold: #FFB612;       /* SA flag gold */
+  --sa-black: #000000;      /* SA flag black */
+  --sa-red: #CE1126;        /* SA flag red */
+  --sa-white: #FFFFFF;      /* SA flag white */
+  --sa-blue: #00339F;       /* SA flag blue */
+
+  /* Theme derived colours */
+  --mzansi-primary: var(--sa-green);
+  --mzansi-secondary: var(--sa-gold);
+  --mzansi-accent: var(--sa-red);
+  --mzansi-dark: var(--sa-black);
+  --mzansi-light: var(--sa-white);
+  --mzansi-dark-blue: var(--sa-blue);
+
+  /* Gradients inspired by SA flag Y-shape */
+  --mzansi-gradient: linear-gradient(135deg, var(--sa-green) 0%, var(--sa-gold) 50%, var(--sa-red) 100%);
+  --mzansi-gradient-soft: linear-gradient(180deg, rgba(0,122,77,0.1) 0%, rgba(255,182,18,0.1) 100%);
+
+  /* Fonts */
+  --font-heading: "Segoe UI", "Ubuntu", "DejaVu Sans", sans-serif;
+  --font-body: "Segoe UI", "Ubuntu", "DejaVu Sans", sans-serif;
+  --font-display: "Segoe UI", "Ubuntu", "DejaVu Sans", sans-serif;
+
+  /* Spacing */
+  --radius: 8px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* --- Reset & Base --- */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  background: var(--mzansi-gradient-soft);
+  color: var(--sa-black);
+  line-height: 1.6;
+}
+
+/* --- Headings --- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--sa-green);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: var(--mzansi-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+h2 {
+  font-size: 2rem;
+  border-left: 6px solid var(--sa-red);
+  padding-left: 12px;
+}
+
+h3 {
+  font-size: 1.5rem;
+  color: var(--sa-blue);
+}
+
+/* --- Buttons --- */
+.btn, button {
+  font-family: var(--font-body);
+  background: var(--sa-green);
+  color: var(--sa-white);
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn:hover, button:hover {
+  background: var(--sa-red);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+.btn-gold, .btn-secondary {
+  background: var(--sa-gold);
+  color: var(--sa-black);
+}
+
+.btn-gold:hover, .btn-secondary:hover {
+  background: var(--sa-red);
+  color: var(--sa-white);
+}
+
+/* --- Cards --- */
+.card {
+  background: var(--sa-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border-top: 4px solid var(--sa-green);
+}
+
+.card-header {
+  color: var(--sa-green);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* --- Links --- */
+a {
+  color: var(--sa-blue);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--sa-red);
+  text-decoration: underline;
+}
+
+/* --- SA Flag Accent Stripes --- */
+.sa-stripe {
+  height: 6px;
+  background: var(--mzansi-gradient);
+  margin: 1rem 0;
+  border-radius: 3px;
+}
+
+/* --- Utility Classes --- */
+.text-green { color: var(--sa-green); }
+.text-gold { color: var(--sa-gold); }
+.text-black { color: var(--sa-black); }
+.text-red { color: var(--sa-red); }
+.text-blue { color: var(--sa-blue); }
+
+.bg-green { background: var(--sa-green); color: var(--sa-white); }
+.bg-gold { background: var(--sa-gold); color: var(--sa-black); }
+.bg-red { background: var(--sa-red); color: var(--sa-white); }
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.5rem; }
+  .card { padding: 1rem; }
+}
