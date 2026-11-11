@@ -25,19 +25,19 @@
   --mzansi-gradient: linear-gradient(135deg, var(--sa-green) 0%, var(--sa-gold) 50%, var(--sa-red) 100%);
   --mzansi-gradient-soft: linear-gradient(180deg, rgba(0,122,77,0.1) 0%, rgba(255,182,18,0.1) 100%);
 
-  /* --- App variables (from variables.css — required by layout.css & components.css) --- */
-  --bg-app: #0f172a;
-  --bg-panel: #1e293b;
-  --bg-card: #334155;
-  --text-main: #f1f5f9;
-  --text-muted: #94a3b8;
+  /* --- App variables — SA colours (replaces variables.css) --- */
+  --bg-app: #0a0a0a;                /* dark charcoal/black background */
+  --bg-panel: #0d1b0d;              /* dark green/black sidebar */
+  --bg-card: #141414;               /* near-black cards */
+  --text-main: #f5f5f5;             /* off-white text */
+  --text-muted: #b0b0b0;            /* muted gray text */
 
-  --accent-primary: #ef4444;        /* earth red / red gem */
-  --accent-secondary: #f59e0b;      /* township gold */
-  --accent-success: #22c55e;        /* amapiano green */
-  --accent-warn: #eab308;
+  --accent-primary: var(--sa-green);      /* SA flag green */
+  --accent-secondary: var(--sa-gold);     /* SA flag gold */
+  --accent-success: var(--sa-green);      /* SA flag green */
+  --accent-warn: var(--sa-red);           /* SA flag red */
 
-  --border-color: #475569;
+  --border-color: var(--sa-green);
 
   --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   --font-heading: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
