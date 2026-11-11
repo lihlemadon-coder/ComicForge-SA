@@ -1,0 +1,54 @@
+{
+  "presets": [
+    {
+      "name": "Soweto Street Corner",
+      "prompt": "Vibrant Soweto street at dusk, colourful murals on brick walls, minibus taxis queueing, street vendors selling vetkoek, kids playing soccer in the road, warm orange streetlights, laundry hanging between houses",
+      "saCulture": "Soweto township"
+    },
+    {
+      "name": "Durban Beachfront",
+      "prompt": "Durban Golden Mile beachfront at sunrise, Indian Ocean waves crashing, surfers with boards, promenade crowded with families, rickshaws with colourful umbrellas, curry bunny chow stalls, humid salty air",
+      "saCulture": "Durban coastal"
+    },
+    {
+      "name": "Table Mountain",
+      "prompt": "Table Mountain at sunset, Cape Town skyline below, cable cars moving, fynbos plants in foreground, city bowl lights turning on, Atlantic Ocean on one side, mountains covered in pink and gold light",
+      "saCulture": "Cape Town"
+    },
+    {
+      "name": "Johannesburg Taxi Rank",
+      "prompt": "Chaotic Johannesburg taxi rank at rush hour, dozens of minibus taxis colourful and loud, drivers shouting destinations, commuters rushing with bags, street food sellers, diesel smoke, urban energy",
+      "saCulture": "Johannesburg urban"
+    },
+    {
+      "name": "Traditional Shebeen",
+      "prompt": "Dimly lit shebeen tavern in the township, corrugated iron walls, neon beer signs, people laughing and playing cards, umqombothi in shared containers, kwaito music from an old radio, wooden tables",
+      "saCulture": "South African township shebeen"
+    },
+    {
+      "name": "Rural Limpopo Village",
+      "prompt": "Rural Limpopo village at golden hour, traditional rondavel huts with thatched roofs, maize fields stretching to hills, women carrying water on heads, children chasing chickens, goats wandering, red clay soil",
+      "saCulture": "Rural Limpopo"
+    },
+    {
+      "name": "Bo-Kaap Cape Town",
+      "prompt": "Bo-Kaap colourful houses in Cape Town, cobblestone streets, bright blue, pink, and yellow painted homes, mosque minaret in distance, Cape Malay spice scents, laundry on lines, mountain backdrop",
+      "saCulture": "Cape Malay / Cape Town"
+    },
+    {
+      "name": "Kruger National Park",
+      "prompt": "Kruger National Park savanna at dawn, acacia trees silhouetted, mist over watering hole, elephants and antelope grazing, safari jeep with tourists, golden grass, African sky full of stars",
+      "saCulture": "South African bushveld"
+    },
+    {
+      "name": "Victoria Street Market Durban",
+      "prompt": "Durban Victoria Street Market, narrow aisles packed with spices in pyramids, incense smoke, Indian clothing fabrics, jewellery stalls, shoppers bargaining, aroma of curry and chai, bustling multicultural crowd",
+      "saCulture": "Durban Indian market"
+    },
+    {
+      "name": "Gauteng Mine Dump",
+      "prompt": "Gauteng mine dump landscape at twilight, reddish-yellow earth mounds, mine headgear silhouettes against the sky, township shacks at the base, distant city lights, industrial and gritty atmosphere",
+      "saCulture": "Gauteng mining"
+    }
+  ]
+}
