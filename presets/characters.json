@@ -1,0 +1,84 @@
+{
+  "presets": [
+    {
+      "name": "Thandiwe",
+      "age": 17,
+      "look": "Short natural hair in twists, bronze skin, gap-toothed smile, scar above left eyebrow from a skate fall",
+      "outfit": "Oversized graphic tee, baggy denim jeans, scuffed high-top sneakers, beaded bracelet",
+      "personality": "Fearless, quick-witted, loyal to her crew, hates authority",
+      "saCulture": "Soweto skater — grew up rolling down Vilakazi Street, speaks isiZulu and English, township slang"
+    },
+    {
+      "name": "Kai",
+      "age": 19,
+      "look": "Tall, sun-bleached dreadlocks, lean surfer build, salt-stained skin, shell necklace",
+      "outfit": "Board shorts, flip-flops, open linen shirt, waxed surfboard under arm",
+      "personality": "Chill, patient, ocean-obsessed, avoids conflict but will protect friends",
+      "saCulture": "Durban surfer — rides the waves at North Beach, speaks isiZulu and English, loves amapiano"
+    },
+    {
+      "name": "Nomsa",
+      "age": 16,
+      "look": "Small stature, braided hair with red clay beads, wide curious eyes, traditional beads around neck",
+      "outfit": "Colourful printed dress, shweshwe apron, beaded anklets, barefoot",
+      "personality": "Quiet, observant, spiritual, sees visions, respects elders",
+      "saCulture": "Limpopo sangoma girl — training as a healer, speaks isiZulu and Sepedi, connects with ancestors"
+    },
+    {
+      "name": "Malik",
+      "age": 20,
+      "look": "Fade haircut, gold tooth, tattoos on knuckles, smooth chocolate skin, confident stance",
+      "outfit": "Bucket hat, chain necklace, bomber jacket, fresh sneakers, holding a mic",
+      "personality": "Charismatic, loud, ambitious, funny, never backs down from a rap battle",
+      "saCulture": "Cape Town coloured rapper — from the Cape Flats, speaks Afrikaans and English, drops Coloured slang"
+    },
+    {
+      "name": "Sipho",
+      "age": 24,
+      "look": "Muscular build, short cornrows, gold watch, serious expression, hands always moving",
+      "outfit": "Taxi uniform shirt, navy trousers, polished shoes, route number badge",
+      "personality": "Hardworking, short-tempered, protective, knows every shortcut in Joburg",
+      "saCulture": "Johannesburg taxi driver — speaks isiZulu, Sesotho, and English, township taxi culture"
+    },
+    {
+      "name": "Amahle",
+      "age": 18,
+      "look": "Long braided hair, gold nose ring, bright smile, henna on hands, warm brown skin",
+      "outfit": "Colourful salwar kameez, dupatta, bangles, carrying a spice basket",
+      "personality": "Friendly, business-savvy, loves bargaining, close to her family",
+      "saCulture": "Durban Indian market vendor — works at Victoria Street Market, speaks English and isiZulu"
+    },
+    {
+      "name": "Lerato",
+      "age": 15,
+      "look": "Ponytail, freckles, sun-kissed skin, simple earrings, practical clothes",
+      "outfit": "Farm dress, gumboots, wide-brimmed hat, basket on arm",
+      "personality": "Gentle, hardworking, dreams of the city, loves animals",
+      "saCulture": "Free State farm girl — speaks Sesotho and English, helps with maize and cattle"
+    },
+    {
+      "name": "Zanele",
+      "age": 19,
+      "look": "Bold makeup, short dyed hair, gold teeth, confident walk, dancing energy",
+      "outfit": "Crop top, cargo pants, sneakers, holding a phone recording gqom beats",
+      "personality": "Outgoing, trendsetter, loves music and dancing, social media savvy",
+      "saCulture": "Durban gqom dancer — from KwaMashu, speaks isiZulu, obsessed with gqom music"
+    },
+    {
+      "name": "Tebogo",
+      "age": 21,
+      "look": "Clean cut, glasses, backpack, laptop, neat appearance, always reading",
+      "outfit": "Hoodie, jeans, sneakers, student ID around neck",
+      "personality": "Studious, quiet, ambitious, wants to change his township",
+      "saCulture": "Pretoria university student — speaks Setswana and English, first in family to study"
+    },
+    {
+      "name": "Bongani",
+      "age": 14,
+      "look": "Lean, bare feet, dirt on knees, wide smile, carrying a stick, wearing a cap",
+      "outfit": "Worn t-shirt, patched jeans, cap, carrying a small bag",
+      "personality": "Brave, respectful, loves stories, good with animals",
+      "saCulture": "Eastern Cape herdboy — herds cattle and goats, speaks isiXhosa, rural traditions"
+    }
+  ]
+}
