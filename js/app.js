@@ -132,3 +132,61 @@
     }, 5000);
   }
 };
+startNewStoryFromPrompt() {
+    const idea = prompt('Enter a one-line story idea:');
+    if (!idea) return;
+    const id = 'proj_' + Date.now();
+    const project = Project.create(idea);
+    storage.saveProject(id, project);
+    this.currentProjectId = id;
+    this.showView('story', id);
+  },
+
+  exportCurrentProject() {
+    const project = storage.loadProject(this.currentProjectId);
+    if (!project) return alert('No current project to export.');
+    const blob = new Blob([JSON.stringify(project, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${project.name || 'project'}_${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  },
+
+  loadPresetCharacter() {
+    fetch('presets/characters.json')
+      .then(r => r.json())
+      .then(data => {
+        const names = data.presets.map(p => p.name);
+        const choice = prompt('Choose a preset character:\n\n' + names.join('\n'));
+        if (!choice) return;
+        const preset = data.presets.find(p => p.name === choice);
+        if (!preset) return alert('Character not found.');
+        const project = storage.loadProject(this.currentProjectId);
+        if (!project) return alert('No project loaded.');
+        const char = Character.create(preset.name);
+        char.background = preset.look;
+        char.personality = [preset.personality];
+        project.characters = (project.characters || []).concat(char);
+        storage.saveProject(this.currentProjectId, project);
+        alert('Character ' + choice + ' added to your project!');
+        this.renderCharacters();
+      })
+      .catch(e => console.error('Failed to load character presets:', e));
+  },
+
+  loadPresetBackground() {
+    fetch('presets/backgrounds.json')
+      .then(r => r.json())
+      .then(data => {
+        const names = data.presets.map(p => p.name);
+        const choice = prompt('Choose a preset background:\n\n' + names.join('\n'));
+        if (!choice) return;
+        const preset = data.presets.find(p => p.name === choice);
+        if (!preset) return alert('Background not found.');
+        alert('Loaded background: ' + preset.name + '\n\nPrompt: ' + preset.prompt);
+      })
+      .catch(e => console.error('Failed to load background presets:', e));
+  }
+};
