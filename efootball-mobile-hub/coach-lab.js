@@ -4,10 +4,6 @@ const coachProfile = document.getElementById('coachProfile');
 if (coachList && coachProfile) {
   const allowedBadgeTones = new Set(['green', 'red', 'blue', 'amber', 'cyan', 'violet']);
 
-  const showError = message => {
-    coachProfile.setAttribute('aria-busy', 'false');
-    coachProfile.innerHTML = `<p class="lab-error">${escapeHtml(message)}</p>`;
-  };
   let styleById = new Map();
   let players = [];
 
@@ -44,6 +40,7 @@ if (coachList && coachProfile) {
         </div>
         <div class="proficiency-score"><strong>${proficiency}<span>/100</span></strong><span>${escapeHtml(coach.proficiency.label)}</span></div>
       </div>
+      // cSpell:ignore valuenow
       <div class="proficiency-track" role="progressbar" aria-label="${escapeHtml(coach.name)} proficiency with recommended players" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${proficiency}">
         <span style="width: ${proficiency}%"></span>
       </div>
@@ -109,59 +106,54 @@ if (coachList && coachProfile) {
     }
   };
 
-  fetch('data.json')
-    .then(response => {
-      if (!response.ok) throw new Error(`Coach data request failed (${response.status}).`);
-      return response.json();
-    })
-    .then(data => {
-      if (!Array.isArray(data.coaches) || data.coaches.length === 0) {
-        throw new Error('Coach data is empty or has an invalid format.');
+  try {
+    const data = SITE_DATA;
+    if (!Array.isArray(data.coaches) || data.coaches.length === 0) {
+      throw new Error('Coach data is empty or has an invalid format.');
+    }
+    if (!Array.isArray(data.playerStyles) || !Array.isArray(data.players)) {
+      throw new Error('Player style catalog is missing or invalid.');
+    }
+    styleById = new Map(data.playerStyles.map(style => [style.id, style]));
+    players = data.players;
+    players.forEach(player => {
+      if (!player.id || !player.name || !player.position || !styleById.has(player.styleId)) {
+        throw new Error(`Player ${player.name || player.id || 'entry'} is missing a valid style.`);
       }
-      if (!Array.isArray(data.playerStyles) || !Array.isArray(data.players)) {
-        throw new Error('Player style catalog is missing or invalid.');
-      }
-      styleById = new Map(data.playerStyles.map(style => [style.id, style]));
-      players = data.players;
-      players.forEach(player => {
-        if (!player.id || !player.name || !player.position || !styleById.has(player.styleId)) {
-          throw new Error(`Player ${player.name || player.id || 'entry'} is missing a valid style.`);
-        }
-      });
-      data.coaches.forEach(validateCoach);
-
-      coachList.replaceChildren();
-      let selectedCoachId = null;
-      try {
-        selectedCoachId = localStorage.getItem('touchline:selectedCoach');
-      } catch (error) {
-        console.error('Unable to read the saved coach selection:', error);
-      }
-      const activeCoach = data.coaches.find(coach => coach.id === selectedCoachId) || data.coaches[0];
-      data.coaches.forEach(coach => {
-        const button = document.createElement('button');
-        button.className = 'coach-option';
-        button.type = 'button';
-        button.textContent = coach.name;
-        button.setAttribute('aria-pressed', String(coach.id === activeCoach.id));
-        button.addEventListener('click', () => {
-          coachList.querySelectorAll('.coach-option').forEach(option => {
-            option.setAttribute('aria-pressed', String(option === button));
-          });
-          try {
-            localStorage.setItem('touchline:selectedCoach', coach.id);
-          } catch (error) {
-            console.error('Unable to save the coach selection:', error);
-          }
-          renderCoach(coach);
-        });
-        coachList.append(button);
-      });
-
-      renderCoach(activeCoach);
-    })
-    .catch(error => {
-      console.error('Unable to load Coach Lab profiles:', error);
-      showError('Coach profiles could not be loaded. Open the site through a local web server and check data.json.');
     });
+    data.coaches.forEach(validateCoach);
+
+    coachList.replaceChildren();
+    let selectedCoachId = null;
+    try {
+      selectedCoachId = localStorage.getItem('touchline:selectedCoach');
+    } catch (error) {
+      console.error('Unable to read the saved coach selection:', error);
+    }
+    const activeCoach = data.coaches.find(coach => coach.id === selectedCoachId) || data.coaches[0];
+    data.coaches.forEach(coach => {
+      const button = document.createElement('button');
+      button.className = 'coach-option';
+      button.type = 'button';
+      button.textContent = coach.name;
+      button.setAttribute('aria-pressed', String(coach.id === activeCoach.id));
+      button.addEventListener('click', () => {
+        coachList.querySelectorAll('.coach-option').forEach(option => {
+          option.setAttribute('aria-pressed', String(option === button));
+        });
+        try {
+          localStorage.setItem('touchline:selectedCoach', coach.id);
+        } catch (error) {
+          console.error('Unable to save the coach selection:', error);
+        }
+        renderCoach(coach);
+      });
+      coachList.append(button);
+    });
+
+    renderCoach(activeCoach);
+  } catch (error) {
+    console.error('Unable to load Coach Lab profiles:', error);
+    showError('Coach profiles could not be loaded.');
+  }
 }

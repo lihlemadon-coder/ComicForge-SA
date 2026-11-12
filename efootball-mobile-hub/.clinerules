@@ -1,0 +1,5 @@
+PROJECT: Touchline Intel - GitHub Pages static site
+STACK: HTML, CSS, JavaScript, JSON ONLY
+FORBIDDEN: Python, .py, Node.js server, PHP, databases
+DATA: players.json, coaches.json only
+NEVER create .py files. If you think you need Python, use JavaScript instead.
