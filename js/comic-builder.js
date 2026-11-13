@@ -60,6 +60,8 @@ const ComicBuilder = {
     if (data.narration !== undefined) panel.narration = data.narration;
     if (data.sfx !== undefined) panel.sfx = data.sfx;
     if (data.imageUrl !== undefined) panel.imageUrl = data.imageUrl;
+    if (data.dialogueLanguage !== undefined) panel.dialogueLanguage = data.dialogueLanguage;
+    if (data.subtitles !== undefined) panel.subtitles = data.subtitles;
     project.comic = comic;
   },
 

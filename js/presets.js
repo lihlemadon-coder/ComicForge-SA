@@ -13,3 +13,11 @@ window.BACKGROUND_PRESETS = [
   { name: 'Tsitsikamma forest coast', saCulture: 'Garden Route', prompt: 'Comic background, Tsitsikamma indigenous forest opening onto a rugged coastline, ferns, yellowwood trees, sea spray, suspended footbridge in the distance, moody green-blue graphic-novel scene.' },
   { name: 'Free State harvest field', saCulture: 'Free State', prompt: 'Comic background, Free State maize fields after harvest, wide flat horizon, farm road, distant windbreak trees and a red evening sky, workers heading home, warm textured comic illustration.' }
 ];
+
+window.CHARACTER_PRESETS = [
+  { name: 'Thandiwe', age: 17, background: 'Soweto, Gauteng; grew up skating and helping at a family shop.', languages: ['isiZulu', 'English'], personality: ['quick-witted', 'loyal', 'independent'], powers: [], goal: 'Build a future on her own terms.', saCulture: 'Contemporary Gauteng city life' },
+  { name: 'Kai', age: 19, background: 'Durban, KwaZulu-Natal; spends free time near the coast.', languages: ['isiZulu', 'English'], personality: ['patient', 'observant', 'protective'], powers: [], goal: 'Help his friends while finding his own direction.', saCulture: 'eThekwini coastal life' },
+  { name: 'Amahle', age: 18, background: 'Durban; helps her family run a small market stall.', languages: ['English', 'isiZulu'], personality: ['warm', 'business-minded', 'resourceful'], powers: [], goal: 'Grow the family business without losing time for herself.', saCulture: 'Multilingual Durban community' },
+  { name: 'Tebogo', age: 21, background: 'Pretoria, Gauteng; first in his family to attend university.', languages: ['Setswana', 'English'], personality: ['thoughtful', 'ambitious', 'quietly funny'], powers: [], goal: 'Make his studies useful to his community.', saCulture: 'Student life in Pretoria' },
+  { name: 'Lerato', age: 18, background: 'Free State smallholding; works with her family during harvest.', languages: ['Sesotho', 'English'], personality: ['patient', 'practical', 'curious'], powers: [], goal: 'Choose a path that keeps her connected to home.', saCulture: 'Free State rural life' }
+];

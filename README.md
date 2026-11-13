@@ -50,11 +50,11 @@ ComicForge-SA/
 | **Dashboard** | My Series list, create/delete projects, status tracking |
 | **Story Engine** | Local template: premise → title, logline, theme, three acts, cold open, cliffhanger; fields remain editable |
 | **Series Memory** | Browser-local canon, continuity overrides, and creator notes; included in JSON exports |
-| **Character Bible** | Add, edit, and delete characters with setting, languages, personality, abilities, goals, secrets, arcs, and status |
-| **Scene Breaker** | Add, edit, and delete beats with location, goal, conflict, dialogue, visual description, and cast; warns about deceased or unknown characters |
-| **Background Library** | South African location prompts can be applied to the next comic panel |
-| **Comic Builder** | Add/delete pages and panels; edit prompts, dialogue, narration, sound effects, and artwork URL |
-| **Read Mode** | Navigate pages and read panel text or artwork URLs |
+| **Character Bible** | Add, edit, and delete characters with setting, language, relationships, personality, abilities, goals, and status; start from a character template |
+| **Scene Breaker** | Add, edit, and delete beats with location, dialogue language, subtitles, conflict, and cast; warns about deceased or unknown characters |
+| **Background Library** | Built-in South African prompts plus project-owned custom backgrounds, applied to new comic panels |
+| **Comic Builder** | Add/delete pages and panels; edit prompts, dialogue language, subtitles, narration, sound effects; upload artwork or reference an image URL |
+| **Read Mode** | Navigate pages and read dialogue/subtitles with uploaded artwork or image URLs |
 | **Comic Export** | Download a standalone HTML version of the comic |
 | **Anime Blueprint** | Generate editable motion-comic shots from panels, distribute a 300–420 second runtime, and export the shot list |
 | **Progress Tracker** | Idea → Story → Characters → Comic → Anime Blueprint → Done |
@@ -159,7 +159,7 @@ All data is stored in `localStorage` and portable as JSON:
 
 - Story structures are template-based, not AI generated. There is no AI image generation.
 - Project memory is stored only in the current browser profile. Export JSON for backup or transfer.
-- Panel artwork is linked by URL or relative path; this version does not upload image files into the project.
+- Uploaded artwork is stored in this browser’s IndexedDB. JSON project exports embed those images so they can be moved to another browser.
 - Scene continuity checks catch unknown or deceased character names, but do not understand plot canon automatically.
 
 ## 🙏 Cultural Commitment

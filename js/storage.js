@@ -33,6 +33,7 @@ const storage = {
       project.memory = project.memory || { canon: [], continuity: [], notes: '' };
       project.memory.canon = project.memory.canon || [];
       project.memory.continuity = project.memory.continuity || [];
+      project.memory.backgrounds = project.memory.backgrounds || [];
       project.memory.notes = project.memory.notes || '';
       return project;
     } catch (e) {
@@ -63,8 +64,10 @@ const storage = {
   /**
    * Delete a project
    */
-  deleteProject(id) {
+  async deleteProject(id) {
     try {
+      const project=this.loadProject(id);
+      for(const page of project?.comic?.pages||[])for(const panel of page.panels||[])if(panel.imageAssetId){try{await AssetStore.delete(panel.imageAssetId);}catch(error){console.warn('Could not remove artwork asset:',error);}}
       localStorage.removeItem(STORAGE_PREFIX + id);
       this._removeFromProjectList(id);
       return true;
@@ -77,12 +80,12 @@ const storage = {
   /**
    * Export all projects as a single JSON blob
    */
-  exportAll() {
+  async exportAll() {
     const projects = {};
     const ids = this.listProjects();
     for (const id of ids) {
       const p = this.loadProject(id);
-      if (p) projects[id] = p;
+      if (p) projects[id] = await this._embedAssets(p);
     }
     const blob = new Blob([JSON.stringify(projects, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -98,7 +101,7 @@ const storage = {
    */
   importFromFile(file, onComplete) {
     const reader = new FileReader();
-    reader.onload = (e) => {
+    reader.onload = async (e) => {
       try {
         const data = JSON.parse(e.target.result);
         const projects = data && data.name && typeof data === 'object' ? { [data.id || `proj_${Date.now()}`]: data } : data;
@@ -107,6 +110,15 @@ const storage = {
         for (const [id, project] of Object.entries(projects)) {
           if (!project || typeof project !== 'object' || typeof project.name !== 'string') continue;
           const safeId = String(project.id || id).replace(/[^\w-]/g, '_');
+          for (const page of project.comic?.pages || []) for (const panel of page.panels || []) {
+            if (panel.imageData) {
+              const response = await fetch(panel.imageData);
+              const blob = await response.blob();
+              panel.imageAssetId = `${safeId}_${panel.id}`;
+              await AssetStore.save(panel.imageAssetId, blob);
+              delete panel.imageData;
+            }
+          }
           if (!this.saveProject(safeId, project)) throw new Error(`Could not import ${project.name}.`);
           count++;
         }
@@ -117,6 +129,18 @@ const storage = {
       }
     };
     reader.readAsText(file);
+  },
+
+  async _embedAssets(project) {
+    const copy = JSON.parse(JSON.stringify(project));
+    for (const page of copy.comic?.pages || []) for (const panel of page.panels || []) {
+      if (!panel.imageAssetId) continue;
+      try {
+        const asset = await AssetStore.get(panel.imageAssetId);
+        if (asset) panel.imageData = await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(reader.error);reader.readAsDataURL(asset.blob);});
+      } catch (error) { console.warn('Image omitted from JSON backup:', error); }
+    }
+    return copy;
   },
 
   /* Internal: keep a lightweight project index for fast dashboard listing */

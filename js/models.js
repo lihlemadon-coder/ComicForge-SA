@@ -14,7 +14,7 @@ const Project = {
       episodes: [],
       comic: { pages: [] },
       // Persistent series memory: canon, continuity, and creator notes.
-      memory: { canon: [], continuity: [], notes: '' },
+      memory: { canon: [], continuity: [], backgrounds: [], notes: '' },
       animeBlueprint: null
     };
   }
@@ -52,6 +52,7 @@ const Character = {
       goal: '',
       secret: '',
       arc: '',
+      relationships: [],
       dogBond: null,
       alive: true,
       lastSeen: '',
@@ -70,6 +71,8 @@ const Scene = {
       goal: goal || '',
       conflict: '',
       dialogue: '',
+      language: 'en',
+      subtitles: '',
       visual: '',
       characters: [],
       updatedAt: new Date().toISOString()
@@ -96,9 +99,12 @@ const Panel = {
       number: number || 1,
       visualPrompt: '',
       dialogue: '',
+      dialogueLanguage: 'en',
+      subtitles: '',
       narration: '',
       sfx: '',
-      imageUrl: ''
+      imageUrl: '',
+      imageAssetId: null
     };
   }
 };
@@ -116,6 +122,10 @@ const AnimeShot = {
       cameraAngle: 'eye_level',
       movement: 'slow_zoom',
       voiceLine: voiceLine || '[Visual only]',
+      voiceCharacter: '',
+      language: 'en',
+      subtitles: '',
+      musicCue: '',
       soundCue: 'Ambient',
       durationSeconds: 15,
       animateOrPan: 'pan_zoom'

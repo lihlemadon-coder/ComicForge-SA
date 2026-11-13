@@ -2,7 +2,7 @@
 
 ## Feature branch progress
 
-Implemented in `feature/complete-creation-workflows`: editable story template, character add/edit/delete, scene add/edit/delete with cast continuity warnings, comic page and panel workflows, URL artwork, page navigation, HTML comic export, editable anime shots with duration balancing/export, safer project import, bundled South African background prompts, local series memory, and responsive navigation. All JavaScript files pass `node --check`; remaining work includes richer character presets/relationships, image file storage, scene reorder and language/subtitles, custom background management, complete camera/music/voice tooling, and broader automated/browser coverage.
+Implemented in `feature/complete-creation-workflows`: editable story template; character CRUD, relationship notes, and templates; scene CRUD, language/subtitle fields, and cast continuity warnings; comic page/panel workflows, URL artwork and IndexedDB image uploads; image embedding in JSON import/export; page navigation and HTML comic export; editable anime camera/voice/music fields with duration balancing/export; custom background management; South African prompt presets; local series memory; responsive navigation. All JavaScript files pass `node --check`; browser interaction checks remain outstanding.
 
 ## Fixed in this pass
 
@@ -13,7 +13,7 @@ Implemented in `feature/complete-creation-workflows`: editable story template, c
 - Corrected dark theme contrast so cards and text are readable together.
 - Corrected the malformed story button markup and restored the missing method separator in the UI object.
 
-## Findings that still need implementation
+## Initial findings (before the feature branch work)
 
 1. **The feature views are mostly project lists.** Character, Scene, Comic, Read Mode, and Anime views need selected-project editors and end-to-end create, edit, delete, save, and preview flows. The underlying model helpers exist, but most are not connected to controls.
 2. **Scene continuity is not implemented.** Add scene CRUD, character selection, status checks, and warnings for deceased characters or unsupported changes to established canon. Record accepted changes in series memory.
@@ -27,7 +27,15 @@ Implemented in `feature/complete-creation-workflows`: editable story template, c
 10. **The cultural writing system needs better controls.** Add optional setting/cultural context, language tags and subtitle fields, pronunciation/translation notes, and a creator-owned cultural accuracy checklist. Avoid assigning personality or power traits solely from ethnic identity; treat the current story bible's clan-element mappings as fictional worldbuilding rather than factual claims.
 11. **Visual and accessibility work remains.** Add coherent mobile navigation (currently the sidebar disappears), keyboard focus states, semantic buttons, readable form labels, and an illustrated South African landscape treatment that stays behind content with sufficient contrast.
 
-## Suggested completion order
+## Remaining follow-up work
+
+- Add typed relationships and a visual relationship map.
+- Add scene reordering, subtitle timing, and richer canon/power continuity checks.
+- Add search/categories for custom backgrounds and support applying them to existing scenes and panels.
+- Add anime shot reordering, timeline sequencing, and a separate voice-script export.
+- Add canon search/editing, storage backup reminders, and browser interaction coverage.
+
+## Original suggested completion order
 
 1. Finish story, memory, character, and scene editing with persistent autosave.
 2. Connect page/panel creation, image handling, read mode, and comic export.

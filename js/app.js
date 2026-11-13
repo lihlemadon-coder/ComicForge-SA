@@ -3,6 +3,7 @@ const app = {
   currentView: 'dashboard',
   readPageIndex: 0,
   pendingBackground: '',
+  assetUrls: [],
 
   init() {
     this._bindUI();
@@ -39,6 +40,7 @@ const app = {
   },
 
   showView(viewName, projectId = null) {
+    this.releaseAssetUrls();
     this.currentView = viewName;
     if (projectId) this.currentProjectId = projectId;
     document.querySelectorAll('[data-view]').forEach(el => el.classList.add('hidden'));
@@ -86,9 +88,9 @@ const app = {
     this.showView('story', id);
   },
 
-  deleteProject(id) {
+  async deleteProject(id) {
     if (!confirm('Delete this series? This cannot be undone.')) return;
-    storage.deleteProject(id);
+    await storage.deleteProject(id);
     this.renderDashboard();
   },
 
@@ -139,6 +141,18 @@ const app = {
     this._saveCurrentProject(project);
   },
 
+  addBackground(formData) {
+    const project=storage.loadProject(this.currentProjectId);if(!project)return;
+    project.memory=project.memory||{canon:[],continuity:[],backgrounds:[],notes:''};project.memory.backgrounds=project.memory.backgrounds||[];
+    project.memory.backgrounds.push(Object.fromEntries(formData.entries()));
+    if(this._saveCurrentProject(project))this.renderSettings();
+  },
+  deleteBackground(index) {
+    const project=storage.loadProject(this.currentProjectId);if(!project)return;
+    project.memory.backgrounds=(project.memory?.backgrounds||[]).filter((_,i)=>i!==index);
+    if(this._saveCurrentProject(project))this.renderSettings();
+  },
+
   saveStoryFromForm(formData) {
     const project=storage.loadProject(this.currentProjectId);if(!project)return;
     project.story=project.story||Story.create();
@@ -155,6 +169,16 @@ const app = {
     return true;
   },
 
+  releaseAssetUrls() { (this.assetUrls||[]).forEach(url=>URL.revokeObjectURL(url));this.assetUrls=[]; },
+
+  async uploadPanelImage(key,file) {
+    const [pageId,panelId]=key.split('|');const project=storage.loadProject(this.currentProjectId);if(!project)return;
+    const page=project.comic?.pages?.find(item=>item.id===pageId);const panel=page?.panels?.find(item=>item.id===panelId);if(!panel)return;
+    const assetId=`${this.currentProjectId}_${panelId}`;
+    try { await AssetStore.save(assetId,file);panel.imageAssetId=assetId;panel.imageUrl='';if(this._saveCurrentProject(project))this.renderComic(); }
+    catch(error) { alert(error.message||'Could not save the artwork.'); }
+  },
+
   createCharacter(form) {
     const project = storage.loadProject(this.currentProjectId); if (!project) return;
     const data = Object.fromEntries(form.entries());
@@ -164,6 +188,7 @@ const app = {
     character.languages = data.languages.split(',').map(x=>x.trim()).filter(Boolean);
     character.personality = data.personality.split(',').map(x=>x.trim()).filter(Boolean);
     character.powers = data.powers.split(',').map(x=>x.trim()).filter(Boolean);
+    character.relationships = data.relationships.split('\n').map(line=>line.trim()).filter(Boolean).map(line=>{const [name,...rest]=line.split(':');return {name:name.trim(),note:rest.join(':').trim()};});
     character.goal = data.goal; character.weakness = data.weakness; character.secret = data.secret; character.arc = data.arc;
     character.status = data.status; character.alive = data.status !== 'deceased';
     const editingId=this.editCharacterId; CharacterEngine.saveCharacter(project, character, editingId);
@@ -189,7 +214,7 @@ const app = {
     if(warnings.length&&!confirm(`Continuity warning: ${warnings.join('; ')}. Add scene anyway?`))return;
     const editingId=this.editSceneId;
     const scene=editingId?(project.story.scenes||[]).find(item=>item.id===editingId)||Scene.create(data.segment,data.location,data.goal):Scene.create(data.segment,data.location,data.goal);
-    Object.assign(scene,{conflict:data.conflict,dialogue:data.dialogue,visual:data.visual,characters:names});
+    Object.assign(scene,{conflict:data.conflict,dialogue:data.dialogue,language:data.language||'en',subtitles:data.subtitles||'',visual:data.visual,characters:names});
     if(editingId){const idx=project.story.scenes.findIndex(item=>item.id===editingId);if(idx>=0)project.story.scenes[idx]=scene;this.editSceneId=null;}else project.story.scenes.push(scene);
     project.memory=project.memory||{canon:[],continuity:[],notes:''};
     if(warnings.length)project.memory.continuity.push(`Override accepted: ${warnings.join('; ')} in scene ${scene.location}.`);
@@ -203,9 +228,9 @@ const app = {
   },
 
   addComicPage() { const p=storage.loadProject(this.currentProjectId);if(!p)return;ComicBuilder.addPage(p);if(this._saveCurrentProject(p))this.renderComic(); },
-  deleteComicPage(id) { const p=storage.loadProject(this.currentProjectId);if(!p)return;ComicBuilder.deletePage(p,id);if(this._saveCurrentProject(p))this.renderComic(); },
+  deleteComicPage(id) { const p=storage.loadProject(this.currentProjectId);if(!p)return;const page=(p.comic?.pages||[]).find(item=>item.id===id);(page?.panels||[]).forEach(panel=>{if(panel.imageAssetId)AssetStore.delete(panel.imageAssetId).catch(()=>{});});ComicBuilder.deletePage(p,id);if(this._saveCurrentProject(p))this.renderComic(); },
   addComicPanel(pageId) { const p=storage.loadProject(this.currentProjectId);if(!p)return;const panel=ComicBuilder.addPanel(pageId,p);if(this.pendingBackground&&panel){panel.visualPrompt=this.pendingBackground;this.pendingBackground='';}if(this._saveCurrentProject(p))this.renderComic(); },
-  deleteComicPanel(key) { const [pageId,panelId]=key.split('|');const p=storage.loadProject(this.currentProjectId);if(!p)return;ComicBuilder.deletePanel(p,pageId,panelId);if(this._saveCurrentProject(p))this.renderComic(); },
+  deleteComicPanel(key) { const [pageId,panelId]=key.split('|');const p=storage.loadProject(this.currentProjectId);if(!p)return;const panel=(p.comic?.pages||[]).find(page=>page.id===pageId)?.panels?.find(item=>item.id===panelId);if(panel?.imageAssetId)AssetStore.delete(panel.imageAssetId).catch(()=>{});ComicBuilder.deletePanel(p,pageId,panelId);if(this._saveCurrentProject(p))this.renderComic(); },
   saveComicPanel(key) {
     const [pageId,panelId]=key.split('|');const p=storage.loadProject(this.currentProjectId);if(!p)return;
     const saveButton=Array.from(document.querySelectorAll('[data-save-panel]')).find(button=>button.dataset.savePanel===key);
@@ -214,12 +239,13 @@ const app = {
     ComicBuilder.savePanel(p,pageId,panelId,data);if(this._saveCurrentProject(p))this.renderComic();
   },
   setPendingBackground(promptText) { this.pendingBackground=promptText; alert(promptText?'Background will be added to the next new panel.':'Choose a background first.'); },
-  exportComic() {
+  async exportComic() {
     const p=storage.loadProject(this.currentProjectId);if(!p)return;
     const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const pages=(p.comic?.pages||[]).map(pg=>`<section><h2>Page ${pg.number}</h2>${(pg.panels||[]).map(pa=>`<article><h3>Panel ${pa.number}</h3>${pa.imageUrl&&!/^\s*(javascript|data):/i.test(pa.imageUrl)?`<img src="${esc(pa.imageUrl)}" alt="Comic panel ${pa.number}" style="max-width:100%">`:''}<p>${esc(pa.visualPrompt)}</p><blockquote>${esc(pa.dialogue)}</blockquote><p>${esc(pa.narration)}</p><strong>${esc(pa.sfx)}</strong></article>`).join('')}</section>`).join('');
-    this._downloadHTML(p.name||'ComicForge comic',pages,'comicforge-comic.html');
+    const pages=await Promise.all((p.comic?.pages||[]).map(async pg=>`<section><h2>Page ${pg.number}</h2>${(await Promise.all((pg.panels||[]).map(async pa=>{let image=pa.imageUrl&&!/^\s*(javascript|data):/i.test(pa.imageUrl)?pa.imageUrl:'';if(pa.imageAssetId){try{const asset=await AssetStore.get(pa.imageAssetId);if(asset)image=await this._blobToDataUrl(asset.blob);}catch(error){console.warn('Artwork omitted from export:',error);}}return `<article><h3>Panel ${pa.number}</h3>${image?`<img src="${esc(image)}" alt="Comic panel ${pa.number}" style="max-width:100%">`:''}<p>${esc(pa.visualPrompt)}</p><blockquote>${esc(pa.dialogue)}</blockquote>${pa.subtitles?`<p><em>${esc(pa.subtitles)}</em></p>`:''}<p>${esc(pa.narration)}</p><strong>${esc(pa.sfx)}</strong></article>`;}))).join('')}</section>`));
+    this._downloadHTML(p.name||'ComicForge comic',pages.join(''),'comicforge-comic.html');
   },
+  _blobToDataUrl(blob) { return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(reader.error);reader.readAsDataURL(blob);}); },
   generateAnimeShots(seconds) {
     if(seconds<300||seconds>420)return alert('Choose a target between 300 and 420 seconds.');
     const p=storage.loadProject(this.currentProjectId);if(!p)return;
@@ -241,8 +267,10 @@ const app = {
   exportAnimeShots() {
     const p=storage.loadProject(this.currentProjectId);if(!p)return;
     const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-    const rows=(p.animeBlueprint||[]).map((s,i)=>`<tr><td>${i+1}</td><td>${esc(s.pageNumber)}</td><td>${esc(s.panelNumber)}</td><td>${esc(s.movement)}</td><td>${esc(s.voiceLine)}</td><td>${esc(s.soundCue)}</td><td>${esc(s.durationSeconds)}</td></tr>`).join('');
-    this._downloadHTML(`${p.name} anime blueprint`,`<h1>${esc(p.name)} — Motion Comic</h1><table><thead><tr><th>Shot</th><th>Page</th><th>Panel</th><th>Movement</th><th>Voice</th><th>Sound</th><th>Seconds</th></tr></thead><tbody>${rows}</tbody></table>`,'comicforge-anime.html');
+    const shots=p.animeBlueprint||[];
+    const rows=shots.map((s,i)=>`<tr><td>${i+1}</td><td>${esc(s.pageNumber)}</td><td>${esc(s.panelNumber)}</td><td>${esc(s.shotType)}</td><td>${esc(s.cameraAngle)}</td><td>${esc(s.movement)}</td><td>${esc(s.voiceCharacter)}</td><td>${esc(s.language)}</td><td>${esc(s.voiceLine)}</td><td>${esc(s.subtitles)}</td><td>${esc(s.soundCue)}</td><td>${esc(s.musicCue)}</td><td>${esc(s.durationSeconds)}</td></tr>`).join('');
+    const script=shots.filter(s=>s.voiceLine&&s.voiceLine!=='[Visual only]').map(s=>`<p><strong>${esc(s.voiceCharacter||'Narrator')} · ${esc(s.language||'en')}:</strong> ${esc(s.voiceLine)}${s.subtitles?`<br><em>Subtitle: ${esc(s.subtitles)}</em>`:''}</p>`).join('');
+    this._downloadHTML(`${p.name} anime blueprint`,`<h1>${esc(p.name)} — Motion Comic</h1><table><thead><tr><th>Shot</th><th>Page</th><th>Panel</th><th>Size</th><th>Angle</th><th>Movement</th><th>Voice</th><th>Language</th><th>Line</th><th>Subtitle</th><th>Sound</th><th>Music</th><th>Seconds</th></tr></thead><tbody>${rows}</tbody></table><h2>Voice script</h2>${script||'<p>No voice lines have been added.</p>'}`,'comicforge-anime.html');
   },
   _downloadHTML(title,body,filename) { const safeTitle=String(title).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const doc=`<!doctype html><html><head><meta charset="utf-8"><title>${safeTitle}</title><style>body{font:16px system-ui;max-width:900px;margin:2rem auto;padding:1rem;background:#101612;color:#f4f1e8}section,article{border:1px solid #50705a;border-radius:10px;padding:1rem;margin:1rem 0}table{width:100%;border-collapse:collapse}td,th{border:1px solid #777;padding:.5rem;text-align:left}</style></head><body>${body}</body></html>`;const url=URL.createObjectURL(new Blob([doc],{type:'text/html'}));const a=document.createElement('a');a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url); },
 
@@ -272,10 +300,11 @@ const app = {
     this.showView('story', id);
   },
 
-  exportCurrentProject() {
+  async exportCurrentProject() {
     const project = storage.loadProject(this.currentProjectId);
     if (!project) return alert('No current project to export.');
-    const blob = new Blob([JSON.stringify(project, null, 2)], { type: 'application/json' });
+    const exportData=await storage._embedAssets(project);
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
