@@ -41,20 +41,24 @@ html, body {
 }
 
 .brand .logo {
-  width: 32px;
-  height: 32px;
-  background: var(--accent-primary);
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 900;
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0 0 10px rgba(255, 182, 18, .25));
 }
+
+.brand .logo svg { display: block; width: 100%; height: 100%; }
+.logo-burst { fill: var(--sa-gold); stroke: var(--sa-black); stroke-width: 2; stroke-linejoin: round; }
+.logo-page { fill: var(--sa-white); stroke: var(--sa-black); stroke-width: 2; stroke-linejoin: round; }
+.logo-panel { fill: var(--sa-red); stroke: var(--sa-black); stroke-width: 1.2; }
+.logo-tail { fill: var(--sa-white); stroke: var(--sa-black); stroke-width: 2; stroke-linejoin: round; }
+.brand-name { color: var(--text-main); font-family: var(--font-heading); font-weight: 900; letter-spacing: .02em; }
+.brand-name span { color: var(--sa-gold); }
 
 .header-actions {
   display: flex;
   gap: 0.5rem;
 }
+.mobile-menu { display: none; }
 
 .sidebar {
   grid-row: 2 / 3;
@@ -75,6 +79,14 @@ html, body {
 
 /* Responsive: stack on mobile */
 @media (max-width: 768px) {
+  .mobile-menu { display: inline-flex; }
+  .header { padding: 0 .75rem; gap: .5rem; }
+  .header-actions { gap: .25rem; flex-wrap: wrap; justify-content: flex-end; }
+  .header-actions .autosave-indicator { display: none; }
+  .header-actions .btn, .header-actions label { padding: .35rem .5rem; font-size: .75rem; }
+  .brand { font-size: 1rem; gap: .4rem; }
+  .brand .logo { width: 38px; height: 38px; }
+  .mobile-menu { padding: .4rem .55rem; }
   .app {
     grid-template-columns: 1fr;
     grid-template-rows: var(--header-height) 60px 1fr;
@@ -88,7 +100,7 @@ html, body {
     display: block;
     position: absolute;
     z-index: 20;
-    height: calc(100vh - var(--header-height) - 60px);
+    height: calc(100vh - var(--header-height));
     overflow-y: auto;
   }
   .main {

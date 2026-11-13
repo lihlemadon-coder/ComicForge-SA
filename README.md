@@ -1,8 +1,8 @@
 # ComicForge SA — AI Comic & Short Anime Creator
 
-A 100% free, offline-first, single-page web app that helps solo creators turn one-line ideas into South African historic-fantasy comics, then adapt those comics into 5–7 minute motion-comic anime episodes.
+A free, offline-first, single-page web app that helps solo creators develop stories, characters, scenes, comics, and motion-comic plans grounded in South African settings and voices.
 
-**No paid APIs. No backend. No database server. No team.** HTML/CSS/vanilla JavaScript only. Works offline. Host free on GitHub Pages / Netlify.
+**No APIs or backend are required.** HTML/CSS/vanilla JavaScript only. The story engine uses local writing templates; it does not generate AI text or images. Project data is stored in this browser and can be exported as JSON. Host on GitHub Pages / Netlify or open locally.
 
 ---
 
@@ -48,30 +48,29 @@ ComicForge-SA/
 |--------|----------|
 | **Storage** | localStorage auto-save, Export/Import project JSON, portable data |
 | **Dashboard** | My Series list, create/delete projects, status tracking |
-| **Story Engine** | Start From Scratch (one-line → title, logline, genre, theme, 3-act structure, cold open, cliffhanger) |
-| **Continue Storyline** | Load last episode summary, character states, next episode goal |
-| **Character Bible** | Full CRUD: name, age, SA background, languages, personality, powers, weakness, goal, secret, arc, dog bond, status |
-| **Scene Breaker** | Cold Open / Act 1 / Act 2 / Climax / Ending / Cliffhanger with location, goal, conflict, dialogue, visual, characters |
-| **Continuity Tracker** | Warns if a deceased character is added to a scene |
-| **Comic Builder** | Pages > Panels with visual prompt, dialogue, narration, SFX |
-| **Read Mode** | Flip-through comic reader |
-| **Comic Export** | Download as standalone HTML eBook |
-| **Anime Blueprint** | Comic pages → motion-comic shot list (camera, movement, voice line, sound cue, duration) |
-| **Anime Export** | Shot list + voice script as HTML |
+| **Story Engine** | Local template: premise → title, logline, theme, three acts, cold open, cliffhanger; fields remain editable |
+| **Series Memory** | Browser-local canon, continuity overrides, and creator notes; included in JSON exports |
+| **Character Bible** | Add, edit, and delete characters with setting, languages, personality, abilities, goals, secrets, arcs, and status |
+| **Scene Breaker** | Add, edit, and delete beats with location, goal, conflict, dialogue, visual description, and cast; warns about deceased or unknown characters |
+| **Background Library** | South African location prompts can be applied to the next comic panel |
+| **Comic Builder** | Add/delete pages and panels; edit prompts, dialogue, narration, sound effects, and artwork URL |
+| **Read Mode** | Navigate pages and read panel text or artwork URLs |
+| **Comic Export** | Download a standalone HTML version of the comic |
+| **Anime Blueprint** | Generate editable motion-comic shots from panels, distribute a 300–420 second runtime, and export the shot list |
 | **Progress Tracker** | Idea → Story → Characters → Comic → Anime Blueprint → Done |
 
 ---
 
 1. **Clone or download** this repository
-2. **Open `index.html`** in any modern browser — works offline immediately
+2. **Open `index.html`** in a modern browser (or serve the folder locally)
 3. **Create a project** → enter your series name
-4. **Build your story** → one-line idea → expanded story
+4. **Build your story** → enter a premise, then edit the generated template
 5. **Create characters** → link them to your story
-6. **Break into scenes** → continuity-checked scene builder
+6. **Break into scenes** → save story beats with continuity warnings
 7. **Build comic** → pages > panels > visual prompts + dialogue
 8. **Read mode** → flip through your comic
 9. **Anime blueprint** → convert comic to motion-comic shot list
-10. **Export** → download JSON backup or HTML eBook / anime script
+10. **Export** → download JSON backup or HTML comic / anime shot list
 
 ---
 
@@ -155,6 +154,13 @@ All data is stored in `localStorage` and portable as JSON:
 - Online gallery / weekly episode hosting
 
 ---
+
+## Current Limits
+
+- Story structures are template-based, not AI generated. There is no AI image generation.
+- Project memory is stored only in the current browser profile. Export JSON for backup or transfer.
+- Panel artwork is linked by URL or relative path; this version does not upload image files into the project.
+- Scene continuity checks catch unknown or deceased character names, but do not understand plot canon automatically.
 
 ## 🙏 Cultural Commitment
 

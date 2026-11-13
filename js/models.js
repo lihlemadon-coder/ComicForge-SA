@@ -13,6 +13,8 @@ const Project = {
       characters: [],
       episodes: [],
       comic: { pages: [] },
+      // Persistent series memory: canon, continuity, and creator notes.
+      memory: { canon: [], continuity: [], notes: '' },
       animeBlueprint: null
     };
   }
@@ -95,7 +97,8 @@ const Panel = {
       visualPrompt: '',
       dialogue: '',
       narration: '',
-      sfx: ''
+      sfx: '',
+      imageUrl: ''
     };
   }
 };

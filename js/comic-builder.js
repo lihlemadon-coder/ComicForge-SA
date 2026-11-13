@@ -32,7 +32,8 @@ const ComicBuilder = {
       visualPrompt: '',
       dialogue: '',
       narration: '',
-      sfx: ''
+      sfx: '',
+      imageUrl: ''
     };
     page.panels.push(panel);
     project.comic = comic;
@@ -58,6 +59,7 @@ const ComicBuilder = {
     if (data.dialogue !== undefined) panel.dialogue = data.dialogue;
     if (data.narration !== undefined) panel.narration = data.narration;
     if (data.sfx !== undefined) panel.sfx = data.sfx;
+    if (data.imageUrl !== undefined) panel.imageUrl = data.imageUrl;
     project.comic = comic;
   },
 

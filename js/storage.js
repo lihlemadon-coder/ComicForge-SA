@@ -29,7 +29,12 @@ const storage = {
     try {
       const raw = localStorage.getItem(STORAGE_PREFIX + id);
       if (!raw) return null;
-      return JSON.parse(raw);
+      const project = JSON.parse(raw);
+      project.memory = project.memory || { canon: [], continuity: [], notes: '' };
+      project.memory.canon = project.memory.canon || [];
+      project.memory.continuity = project.memory.continuity || [];
+      project.memory.notes = project.memory.notes || '';
+      return project;
     } catch (e) {
       console.error('loadProject error:', e);
       return null;
@@ -44,7 +49,7 @@ const storage = {
       const ids = [];
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
-        if (key && key.startsWith(STORAGE_PREFIX)) {
+        if (key && key.startsWith(STORAGE_PREFIX) && key !== STORAGE_PREFIX + '__index__') {
           ids.push(key.replace(STORAGE_PREFIX, ''));
         }
       }
@@ -96,11 +101,16 @@ const storage = {
     reader.onload = (e) => {
       try {
         const data = JSON.parse(e.target.result);
+        const projects = data && data.name && typeof data === 'object' ? { [data.id || `proj_${Date.now()}`]: data } : data;
+        if (!projects || typeof projects !== 'object' || Array.isArray(projects)) throw new Error('Expected a project or project bundle.');
         let count = 0;
-        for (const [id, project] of Object.entries(data)) {
-          this.saveProject(id, project);
+        for (const [id, project] of Object.entries(projects)) {
+          if (!project || typeof project !== 'object' || typeof project.name !== 'string') continue;
+          const safeId = String(project.id || id).replace(/[^\w-]/g, '_');
+          if (!this.saveProject(safeId, project)) throw new Error(`Could not import ${project.name}.`);
           count++;
         }
+        if (!count) throw new Error('No valid projects were found in this file.');
         onComplete(null, count);
       } catch (err) {
         onComplete(err);
@@ -144,7 +154,13 @@ const storage = {
   getProjectIndex() {
     try {
       const raw = localStorage.getItem(STORAGE_PREFIX + '__index__');
-      return raw ? JSON.parse(raw) : {};
+      if (raw) return JSON.parse(raw);
+      const index = {};
+      for (const id of this.listProjects()) {
+        const project = this.loadProject(id);
+        if (project) index[id] = { id, name: project.name || 'Untitled', status: project.status || 'idea', updatedAt: project.updatedAt };
+      }
+      return index;
     } catch (e) {
       return {};
     }

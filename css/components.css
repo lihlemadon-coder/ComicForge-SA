@@ -205,3 +205,20 @@
 @media (max-width: 640px) {
   .grid-2 { grid-template-columns: 1fr; }
 }
+
+.editor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .8rem; margin: 1rem 0; }
+.editor-grid label, .card label { display: grid; gap: .3rem; color: var(--text-muted); font-size: .88rem; }
+.editor-grid input, .editor-grid select, .editor-grid textarea,
+.card input, .card select, .card textarea { width: 100%; min-width: 0; background: var(--bg-app); color: var(--text-main); border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: .6rem; font: inherit; }
+.editor-grid textarea, .card textarea { min-height: 5rem; resize: vertical; }
+.comic-page { margin: 1.5rem 0; padding: 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background: rgba(0,0,0,.16); }
+.panel-editor { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: .75rem; padding: 1rem; margin: .8rem 0; border: 1px dashed var(--sa-gold); border-radius: var(--radius-sm); }
+.panel-editor h5 { grid-column: 1/-1; margin: 0; color: var(--sa-gold); }
+.reader-panels { display: grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap: 1rem; }
+.reader-panel { min-height: 260px; padding: 1rem; background: linear-gradient(145deg,rgba(0,122,77,.24),rgba(206,17,38,.12)),var(--bg-app); border: 2px solid var(--sa-gold); border-radius: var(--radius-sm); }
+.panel-art { display: block; width: 100%; max-height: 420px; object-fit: contain; margin-bottom: .75rem; background: #090b0a; }
+.art-placeholder { min-height: 125px; padding: .75rem; margin-bottom: .75rem; display: grid; place-items: center; text-align: center; color: var(--text-muted); background: repeating-linear-gradient(135deg,rgba(255,182,18,.06) 0 10px,transparent 10px 20px); }
+.reader-panel blockquote { display: inline-block; margin: .5rem 0; padding: .65rem 1rem; background: var(--bg-card); border: 1px solid var(--sa-gold); border-radius: 1rem; }
+.reader-panel .sfx { color: var(--sa-gold); font-size: 1.3rem; text-transform: uppercase; }
+button:disabled { opacity: .45; cursor: not-allowed; }
+button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--sa-gold); outline-offset: 2px; }

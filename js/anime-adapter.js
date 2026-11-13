@@ -2,47 +2,30 @@
 
 const AnimeAdapter = {
   generateShots(comic, targetSeconds) {
-    const shots = [];
-    let secondsUsed = 0;
-    for (const page of comic.pages || []) {
-      for (const p of page.panels || []) {
-        if (secondsUsed >= targetSeconds) break;
-        const duration = Math.min(15, targetSeconds - secondsUsed);
-        secondsUsed += duration;
-        shots.push({
-          id: 'shot_' + Date.now() + Math.random(),
-          pageId: page.id,
-          panelId: p.id,
-          pageNumber: page.number,
-          panelNumber: p.number,
-          shotType: 'medium',
-          cameraAngle: 'eye_level',
-          movement: 'slow_zoom',
-          voiceLine: p.dialogue || '[Visual only]',
-          soundCue: p.sfx || 'Ambient',
-          durationSeconds: duration,
-          animateOrPan: duration > 8 ? 'animate' : 'pan_zoom'
-        });
-      }
-      if (secondsUsed >= targetSeconds) break;
-    }
-    if (secondsUsed < targetSeconds) {
-      shots.push({
-        id: 'shot_cliffhanger',
-        pageId: null,
-        panelId: null,
-        pageNumber: comic.pages.length,
-        panelNumber: 0,
-        shotType: 'close_up',
-        cameraAngle: 'low_angle',
-        movement: 'slow_zoom_in',
-        voiceLine: 'Cliffhanger voice line here.',
-        soundCue: 'Dramatic sting',
-        durationSeconds: targetSeconds - secondsUsed,
-        animateOrPan: 'animate'
-      });
-    }
-    return shots;
+    const panels = (comic.pages || []).flatMap(page => (page.panels || []).map(panel => ({ page, panel })));
+    if (!panels.length || !Number.isFinite(targetSeconds) || targetSeconds < 1) return [];
+    // Keep individual shots readable (15–30 seconds) and distribute the exact target.
+    const count = Math.max(Math.min(panels.length, targetSeconds), Math.ceil(targetSeconds / 60));
+    const base = Math.floor(targetSeconds / count);
+    const remainder = targetSeconds % count;
+    return Array.from({ length: count }, (_, index) => {
+      const { page, panel } = panels[index % panels.length];
+      const duration = base + (index < remainder ? 1 : 0);
+      return {
+        id: `shot_${Date.now()}_${index}`,
+        pageId: page.id,
+        panelId: panel.id,
+        pageNumber: page.number,
+        panelNumber: panel.number,
+        shotType: 'medium',
+        cameraAngle: 'eye_level',
+        movement: index % 3 === 0 ? 'slow_zoom' : index % 3 === 1 ? 'pan_left' : 'hold',
+        voiceLine: panel.dialogue || panel.narration || '[Visual only]',
+        soundCue: panel.sfx || 'Ambient',
+        durationSeconds: duration,
+        animateOrPan: 'pan_zoom'
+      };
+    });
   },
 
   generateAnimeScript(durationSeconds, lang, comic) {

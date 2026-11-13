@@ -88,15 +88,15 @@ body {
   margin: 0;
   padding: 0;
   font-family: var(--font-body);
-  background: var(--mzansi-gradient-soft);
-  color: var(--sa-black);
+  background: var(--bg-app);
+  color: var(--text-main);
   line-height: 1.6;
 }
 
 /* --- Headings --- */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
-  color: var(--sa-green);
+  color: var(--text-main);
   font-weight: 700;
   line-height: 1.2;
 }
@@ -120,7 +120,7 @@ h2 {
 
 h3 {
   font-size: 1.5rem;
-  color: var(--sa-blue);
+  color: var(--sa-gold);
 }
 
 /* --- Buttons --- */
@@ -154,12 +154,13 @@ h3 {
 
 /* --- Cards --- */
 .card {
-  background: var(--sa-white);
+  background: var(--bg-card);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 1.5rem;
   margin: 1rem 0;
-  border-top: 4px solid var(--sa-green);
+  border: 1px solid var(--border-color);
+  border-top: 3px solid var(--sa-green);
 }
 
 .card-header {

@@ -42,3 +42,21 @@ Act 3 (Resolution): The boy must master his fire before the dark magic users fro
     };
   }
 };
+
+// Template-based story structure; honours the creator's premise and does not
+// silently substitute the original Izulu laseMzansi plot.
+StoryEngine.expandStory = function(oneLine) {
+  const premise = String(oneLine || '').trim();
+  const title = premise.split(/\s+/).slice(0, 6).join(' ').replace(/[.!?]+$/, '') || 'A Mzansi Story';
+  return {
+    oneLineIdea: premise,
+    title,
+    logline: premise,
+    genre: 'South African fiction',
+    theme: 'Community, belonging, and the choices that shape who we become',
+    threeActStructure: `Act 1 — Establish a specific place and the protagonist’s everyday life, relationships, and desire. Let local detail emerge naturally from the creator’s chosen setting.\n\nAct 2 — A disruption forces a difficult choice. Build pressure through consequences, relationships, and a turning point that changes what the protagonist understands.\n\nAct 3 — Resolve the central conflict through the protagonist’s decisions. Show what changes for them and their community, and leave a meaningful path forward.`,
+    coldOpen: `Open on a vivid moment from the premise: ${premise}`,
+    cliffhanger: 'End with an unanswered question or a new consequence caused by the protagonist’s choice.',
+    language: 'en'
+  };
+};

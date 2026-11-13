@@ -15,9 +15,17 @@
     <!-- Header -->
     <header class="header">
       <div class="brand">
-        <div class="logo">CF</div>
-        <div>ComicForge SA</div>
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 64 64" role="img" aria-label="ComicForge SA comic mark">
+            <path class="logo-burst" d="M32 2 38 13 50 7 49 20 62 23 53 33 61 43 48 46 49 59 37 54 30 64 24 52 11 57 13 44 2 38 12 29 5 18 18 17 20 4 30 12Z"/>
+            <path class="logo-page" d="M18 17h27a4 4 0 0 1 4 4v25H22a4 4 0 0 1-4-4Z"/>
+            <path class="logo-panel" d="M23 23h8v9h-8zm12 0h9v9h-9zM23 36h9v6h-9zm13 0h8v6h-8z"/>
+            <path class="logo-tail" d="m22 45-5 8 12-7"/>
+          </svg>
+        </div>
+        <div class="brand-name">ComicForge <span>SA</span></div>
       </div>
+      <button class="btn btn-ghost mobile-menu" id="mobile-menu" type="button" aria-expanded="false" aria-controls="sidebar">Menu</button>
       <div class="header-actions">
         <button class="btn btn-ghost btn-sm" id="btn-new-project">New Project</button>
         <button class="btn btn-ghost btn-sm" id="btn-export">Export All JSON</button>
@@ -31,7 +39,7 @@
 
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
-      <nav style="display:flex; flex-direction:column; gap:0.25rem;">
+      <nav style="display:flex; flex-direction:column; gap:0.25rem;" aria-label="Main navigation">
         <div class="nav-item active" id="nav-dashboard" onclick="app.showView('dashboard')">📊 Dashboard</div>
         <div class="nav-item" id="nav-story" onclick="app.showView('story')">📖 Story Engine</div>
         <div class="nav-item" id="nav-character" onclick="app.showView('character')">👥 Characters</div>
@@ -52,6 +60,11 @@
 
       <!-- Story View -->
       <section id="view-story" data-view class="hidden">
+        <div class="view-content"></div>
+      </section>
+
+      <!-- Character View -->
+      <section id="view-character" data-view class="hidden">
         <div class="view-content"></div>
       </section>
 
@@ -86,8 +99,9 @@
   <script src="js/character-engine.js"></script>
   <script src="js/comic-builder.js"></script>
   <script src="js/anime-adapter.js"></script>
+  <script src="js/presets.js"></script>
   <script src="js/ui.js"></script>
-<script>app.init();</script>
   <script src="js/app.js"></script>
+  <script>window.app.init();</script>
 </body>
 </html>
